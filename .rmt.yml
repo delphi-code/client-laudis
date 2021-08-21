@@ -1,0 +1,36 @@
+_default:
+    vcs: git
+
+    # PREREQUISITES
+    #  Actions executed before any questions get asked to the user.
+    prerequisites:
+     - working-copy-check
+     - display-last-changes
+     - tests-check
+     - composer-json-check:
+        composer: "/usr/bin/env composer"
+     - composer-stability-check
+     - composer-security-check
+
+    pre-release-actions:
+        composer-update:
+        changelog-update:
+            format: semantic
+        vcs-commit: ~
+
+    # GENERAL CONFIG
+    #  Apply to all branches except the one from the 'branch-specific' section
+    version-generator: simple
+    version-persister:
+        vcs-tag:
+            tag-prefix: "{branch-name}_"   # Prefix any tag with the VCS branch name
+    post-release-actions:
+        vcs-publish:
+            ask-confirmation: true
+
+# BRANCH SPECIFIC CONFIG
+master:
+    version-generator: semantic
+    version-persister:
+        vcs-tag:
+            tag-prefix: ''

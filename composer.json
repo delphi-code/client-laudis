@@ -1,0 +1,45 @@
+{
+    "name": "delphi/client-laudis",
+    "description": "Wrapper client for using laudis/neo4j-php-client with Delphi",
+    "require": {
+        "delphi/php-orm": "dev-main",
+        "psr/log": "^1.1",
+        "laudis/neo4j-php-client": "^1.0",
+        "php-ds/php-ds": "1.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9",
+        "liip/rmt": "^1.5",
+        "mockery/mockery": "^1.2",
+        "pds/skeleton": "^1.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tom Sartain",
+            "email": "tomsartain@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "delphi\\ORM\\Client\\Laudis\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "delphi\\Tests\\ORM\\Client\\Laudis\\": "tests/"
+        }
+    },
+    "scripts": {
+        "clean": "rm -rf build docs",
+        "build-prepare": "mkdir build docs",
+        "build-phploc": "phploc --log-xml=build/phploc.xml src/",
+        "build-phpcs": "phpcs src/ --report-xml=build/phpcs.xml --report-checkstyle=build/checkstyle.xml || true",
+        "static-analysis": ["@build-phploc", "@build-phpcs"],
+        "build-phpunit": "phpunit",
+        "test": ["@build-phpunit"],
+        "build-phpdox": "phpdox",
+        "docs": ["@build-phpdox"],
+        "build-all": ["@clean", "@build-prepare", "@static-analysis", "@test", "@docs"]
+    }
+}
